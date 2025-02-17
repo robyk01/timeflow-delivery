@@ -158,7 +158,7 @@ class WooCommerce_TimeFlow_Delivery_Time_Slot_CPT {
         }
 
         $available_days = array();
-        if ($_POST['time_slot_available_days'] !== null && is_array($_POST['time_slot_available_days'])){
+        if (isset($_POST['time_slot_available_days']) && is_array($_POST['time_slot_available_days'])){
             foreach($_POST['time_slot_available_days'] as $day){
                 $available_days[] = sanitize_text_field($day);
             }
