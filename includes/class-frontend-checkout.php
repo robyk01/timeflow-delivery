@@ -1,55 +1,21 @@
 <?php
 
+
 function display_time_slot_checkout_field(){
     ?>
     <div class="timeflow_date_slot">
         <label for="date_slot_selection">Alege data:</label>
         <input type="date" name="date_slot_selection" id="date_slot_selection">
     </div>
+    <div class="timeflow_time_slot">
+        <label for="time_slot_selection">Alege ora:</label>
+        <select name="time_slot_selection" id="time_slot_selection">
+            <option>-</option>
+        </select>
+    </div>
     <?php
-
-    $selected_date_slot = '';
-
-    if (isset($_POST['date_slot_selection']) && !empty($_POST['date_slot_selection'])) { 
-        $selected_date_slot = sanitize_text_field($_POST['date_slot_selection']);
-        $day_of_week = date('l', strtotime($selected_date_slot));
-
-        $args = array(
-            'post_type' => 'delivery_time_slot',
-            'meta_query' => array(
-                array(
-                    'key'     => '_time_slot_available_days',
-                    'value'   => $day_of_week,
-                    'compare' => 'LIKE',
-                ),
-            ),
-        );
-        $query = new WP_Query($args);
-    } else {
-        $query = new WP_Query(array('post_type' => 'delivery_time_slot'));
-    }
-
-
-    if ($query->have_posts()){
-        while ($query->have_posts()){
-            $query->the_post();
-            $time_slot_id = get_the_ID();
-            $time_slot_start = get_post_meta($time_slot_id, '_time_slot_start_time', true);
-            $time_slot_end = get_post_meta($time_slot_id, '_time_slot_end_time', true);
-            $time_slot_range = esc_html($time_slot_start) . '-' . esc_html($time_slot_end);
-            
-            $time_slot_data[] = array(
-                'id' => $time_slot_id,
-                'range' => $time_slot_range,
-            );
-        }
-        wp_reset_postdata();
-    }
-    
-    return $time_slot_data;
-
 }
-// add_action('woocommerce_checkout_before_order_review', 'display_time_slot_checkout_field', 20);
+add_action('woocommerce_before_order_notes', 'display_time_slot_checkout_field', 20);
 
 function save_time_slot_checkout($order_id){
     $selected_time_slot = '';

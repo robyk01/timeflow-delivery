@@ -6,7 +6,7 @@ function timeflow_enqueue_checkout_script() {
     if ( is_checkout() ) { 
         wp_enqueue_script(
             'timeflow-checkout-script', 
-            plugins_url( 'assets/js/timeflow-checkout-script.js', __FILE__ ),
+            plugin_dir_url( __FILE__ ) . '../assets/js/timeflow-checkout-script.js',
             array( 'jquery' ), 
             '1.0.0', 
             true 

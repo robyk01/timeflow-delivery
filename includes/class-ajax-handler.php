@@ -4,16 +4,42 @@ add_action('wp_ajax_timeflow_get_time_slots', 'timeflow_get_time_slots');
 add_action('wp_ajax_nopriv_timeflow_get_time_slots', 'timeflow_get_time_slots');
 
 function timeflow_get_time_slots(){
-    $selected_date = isset($_POST['date_slot_selection']) ? sanitize_text_field($_POST['date_slot_selection']) : '';
-    $time_slot = display_time_slot_checkout_field();
+    check_ajax_referer('timeflow_ajax_nonce', 'security');
 
-    $response_data = array(
-        'success' => true,
-        'selected_date' => $selected_date,
-        'time_slots' => $time_slot,
-    );
+    if (isset($_POST['date_slot_selection']) && !empty($_POST['date_slot_selection'])) {
+        $selected_date = sanitize_text_field($_POST['date_slot_selection']);
+        $day_of_week = date('l', strtotime($selected_date));
 
-    wp_send_json($response_data);
+        $args = array(
+            'post_type' => 'delivery_time_slot',
+            'meta_query' => array(
+                array(
+                    'key' => '_time_slot_available_days',
+                    'value' => $day_of_week,
+                    'compare' => 'LIKE',
+                ),
+            ),
+        );
+        $query = new WP_Query($args);
+
+        if ($query->have_posts()) {
+            $time_slots = array();
+            foreach ($query->posts as $time_slot) {
+                $time_slot_start = get_post_meta($time_slot->ID, '_time_slot_start_time', true);
+                $time_slot_end = get_post_meta($time_slot->ID, '_time_slot_end_time', true);
+                $time_slot_range = esc_html($time_slot_start) . '-' . esc_html($time_slot_end);
+                $time_slots[] = array(
+                    'id' => $time_slot->ID,
+                    'range' => $time_slot_range,
+                );
+            }
+            wp_send_json_success($time_slots);
+        } else {
+            wp_send_json_error('No time slots available');
+        }
+    } else {
+        wp_send_json_error('Invalid date');
+    }
 
     wp_die();
 }
