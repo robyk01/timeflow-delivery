@@ -101,6 +101,8 @@ class WooCommerce_TimeFlow_Delivery_Time_Slot_CPT {
         $end_time = get_post_meta($post->ID, '_time_slot_end_time', true);
         $available_days = get_post_meta($post->ID, '_time_slot_available_days', true);
         $weekdays = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday');
+        $fee = get_post_meta($post->ID, '_time_slot_fee', true);
+
         ?>
             <label for="time_slot_start_time">Start Time:</label>
             <input id="time_slot_start_time" type="time" name="time_slot_start_time" value="<?php echo esc_attr($start_time); ?>">
@@ -113,6 +115,7 @@ class WooCommerce_TimeFlow_Delivery_Time_Slot_CPT {
             Saved end time:
         <?php echo esc_html($end_time); ?>
             </p>
+
             <div class="available_days">
                 <p><strong>Available Days</strong></p>
                 <?php
@@ -129,6 +132,12 @@ class WooCommerce_TimeFlow_Delivery_Time_Slot_CPT {
                     }
                 }
                 ?>
+            </div>
+
+            <div class="fee-discount">
+                <p><strong>Add fee</strong></p>
+                <input type="text" name="time_slot_fee" id="time_slot_fee">
+                <p>Saved fee: <?php echo esc_html($fee) ?></p>
             </div>
         <?php
     }
@@ -164,6 +173,10 @@ class WooCommerce_TimeFlow_Delivery_Time_Slot_CPT {
             }
         }
 
+        if (isset($_POST['time_slot_fee'])){
+            $fee = sanitize_text_field($_POST['time_slot_fee']);
+        }
+
         /** updating meta */
 
         if (isset($start_time)){
@@ -175,6 +188,9 @@ class WooCommerce_TimeFlow_Delivery_Time_Slot_CPT {
         }
 
         update_post_meta($post_id, '_time_slot_available_days', $available_days);
+
+        if (isset($fee))
+            update_post_meta($post_id, '_time_slot_fee', $fee);
         
 	}
 

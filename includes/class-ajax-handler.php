@@ -27,10 +27,12 @@ function timeflow_get_time_slots(){
             foreach ($query->posts as $time_slot) {
                 $time_slot_start = get_post_meta($time_slot->ID, '_time_slot_start_time', true);
                 $time_slot_end = get_post_meta($time_slot->ID, '_time_slot_end_time', true);
+                $time_slot_fee = get_post_meta($time_slot->ID, '_time_slot_fee', true);
                 $time_slot_range = esc_html($time_slot_start) . '-' . esc_html($time_slot_end);
                 $time_slots[] = array(
                     'id' => $time_slot->ID,
                     'range' => $time_slot_range,
+                    'fee' => $time_slot_fee
                 );
             }
             wp_send_json_success($time_slots);
