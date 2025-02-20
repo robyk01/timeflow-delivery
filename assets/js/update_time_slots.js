@@ -20,7 +20,7 @@
                             timeSlotSelect.empty();
                             timeSlotSelect.append('<option>-</option>');
                             $.each(response.data, function(index, timeSlot){
-                                timeSlotSelect.append('<option value="' + timeSlot.id + '">' + timeSlot.range + '</option>');
+                                timeSlotSelect.append('<option value="' + timeSlot.id + '">' + timeSlot.range + ' ' + 'Fee: ' + timeSlot.fee + '</option>');
                             });
                         }
                         else{

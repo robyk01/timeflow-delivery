@@ -11,10 +11,11 @@ function display_time_slot_on_order($order){
             $time_slot_title = esc_html(get_the_title($time_slot));
             $time_slot_start = esc_html(get_post_meta($selected_time_slot_id, '_time_slot_start_time', true));
             $time_slot_end = esc_html(get_post_meta($selected_time_slot_id, '_time_slot_end_time', true));
+            $time_slot_fee = esc_html(get_post_meta($selected_time_slot_id, '_time_slot_fee', true));
             $time_slot_range = $time_slot_start . '-' . $time_slot_end;
 
             echo '<p><strong>' . __('Date') . ':</strong>' . $selected_date_slot;
-            echo '<p><strong>' . __('Time Slot') . ':</strong> ' . $time_slot_title . ' (' . $time_slot_range . ')</p>';
+            echo '<p><strong>' . __('Time Slot') . ':</strong> ' . $time_slot_title . ' (' . $time_slot_range . ' ' . 'Fee: ' . $time_slot_fee . ')</p>';
         }
     }
 }

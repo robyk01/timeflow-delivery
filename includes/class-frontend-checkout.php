@@ -17,6 +17,10 @@ function display_time_slot_checkout_field(){
 }
 add_action('woocommerce_before_order_notes', 'display_time_slot_checkout_field', 20);
 
+
+
+
+
 function save_time_slot_checkout($order_id){
     $selected_time_slot = '';
     $selected_date_slot = '';
@@ -36,6 +40,9 @@ function save_time_slot_checkout($order_id){
 add_action('woocommerce_checkout_update_order_meta', 'save_time_slot_checkout', 20, 1);
 
 
+
+
+
 function display_time_slot_in_order_details($order){
     $order_id = $order->get_id();
     $selected_time_slot_id = get_post_meta($order_id, '_delivery_time_slot_id', true);
@@ -47,10 +54,11 @@ function display_time_slot_in_order_details($order){
             $time_slot_title = esc_html(get_the_title($time_slot));
             $time_slot_start = esc_html(get_post_meta($selected_time_slot_id, '_time_slot_start_time', true));
             $time_slot_end = esc_html(get_post_meta($selected_time_slot_id, '_time_slot_end_time', true));
+            $time_slot_fee = esc_html(get_post_meta($selected_time_slot_id, '_time_slot_fee', true));
             $time_slot_range = $time_slot_start . '-' . $time_slot_end;
 
             echo '<p><strong>' . __('Date') . ':</strong>' . $selected_date_slot;
-            echo '<p><strong>' . __('Time Slot') . ':</strong> ' . $time_slot_title . ' (' . $time_slot_range . ')</p>';
+            echo '<p><strong>' . __('Time Slot') . ':</strong> ' . $time_slot_title . ' (' . $time_slot_range . ' ' . 'Fee: ' . $time_slot_fee . ')</p>';
             
         }
     }
