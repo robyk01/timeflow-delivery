@@ -45,3 +45,30 @@ function timeflow_get_time_slots(){
 
     wp_die();
 }
+
+
+add_action('wp_ajax_save_time_slot_selection', 'save_time_slot_selection');
+add_action('wp_ajax_nopriv_save_time_slot_selection', 'save_time_slot_selection');
+
+function save_time_slot_selection() {
+    check_ajax_referer('timeflow_ajax_fees', 'security');
+
+    if (isset($_POST['time_slot_selection'])) {
+        WC()->session->set('time_slot_selection_id', sanitize_text_field($_POST['time_slot_selection']));
+        wp_send_json_success('Time slot saved');
+    } else {
+        wp_send_json_error('Time slot not provided');
+    }
+    wp_die(); 
+}
+
+add_action('wp_ajax_reset_fee_added_flag', 'reset_fee_added_flag');
+add_action('wp_ajax_nopriv_reset_fee_added_flag', 'reset_fee_added_flag');
+
+function reset_fee_added_flag() {
+    check_ajax_referer('timeflow_ajax_fees', 'security');
+
+    WC()->session->__unset('fee_added');
+    wp_send_json_success('Fee added flag reset');
+    wp_die();
+}

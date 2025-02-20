@@ -19,24 +19,6 @@ add_action('woocommerce_before_order_notes', 'display_time_slot_checkout_field',
 
 
 
-function add_time_slot_fee($cart){
-    $selected_time_slot = '';
-    if (isset($_POST['time_slot_selection']) && !empty($_POST['time_slot_selection'])){
-        $selected_time_slot = sanitize_text_field($_POST['time_slot_selection']);
-    }
-    error_log(print_r($_POST, true));
-        
-    $time_slot_fee = get_post_meta($selected_time_slot, '_time_slot_fee', true);
-    if ($time_slot_fee){
-        $cart->add_fee('Fee', $time_slot_fee);
-    }
-    else{
-        error_log('No fee found');
-    }
-
-}
-add_filter('woocommerce_cart_calculate_fees', 'add_time_slot_fee'); 
-
 
 
 function save_time_slot_checkout($order_id){
