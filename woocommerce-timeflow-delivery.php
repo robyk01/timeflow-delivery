@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       WooCommerce TimeFlow Delivery
  * Description:       Allows customers to select delivery date and time slots during WooCommerce checkout.
- * Version:           1.4.0
+ * Version:           1.5.0
  * Author:            Amore Roberto
  */
     
