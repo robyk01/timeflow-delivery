@@ -20,4 +20,3 @@ require_once WOOCOMMERCE_TIMEFLOW_DELIVERY_PLUGIN_DIR . '/includes/class-admin-u
 require_once WOOCOMMERCE_TIMEFLOW_DELIVERY_PLUGIN_DIR . '/includes/class-frontend-checkout.php';
 require_once WOOCOMMERCE_TIMEFLOW_DELIVERY_PLUGIN_DIR . '/includes/class-ajax-handler.php';
 require_once WOOCOMMERCE_TIMEFLOW_DELIVERY_PLUGIN_DIR . '/includes/class-enqueue-scripts.php';
-require_once WOOCOMMERCE_TIMEFLOW_DELIVERY_PLUGIN_DIR . '/includes/class-fee-handler.php';
