@@ -102,6 +102,19 @@ class WooCommerce_TimeFlow_Delivery_Time_Slot_CPT {
         $available_days = get_post_meta($post->ID, '_time_slot_available_days', true);
         $weekdays = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday');
         $fee = get_post_meta($post->ID, '_time_slot_fee', true);
+        $shipping_zones = WC_Shipping_Zones::get_zones();
+        $shipping_instances = array();
+        $available_shipping = get_post_meta($post->ID, '_time_slot_available_shipping', true);
+
+        foreach ($shipping_zones as $zone_data){
+            $zone = new WC_Shipping_Zone($zone_data['id']);
+            $zone_methods = $zone->get_shipping_methods();
+
+            foreach ($zone_methods as $method_instance_id => $method_instance){
+                $shipping_instances[$method_instance_id] = $method_instance;
+            }
+        }
+
 
         ?>
             <label for="time_slot_start_time">Start Time:</label>
@@ -134,10 +147,34 @@ class WooCommerce_TimeFlow_Delivery_Time_Slot_CPT {
                 ?>
             </div>
 
+
             <div class="fee-discount">
                 <p><strong>Add fee</strong></p>
-                <input type="text" name="time_slot_fee" id="time_slot_fee">
+                <input type="text" name="time_slot_fee" id="time_slot_fee" value="<?php echo esc_attr($fee); ?>">
                 <p>Saved fee: <?php echo esc_html($fee) ?></p>
+            </div>
+
+
+            <div class="shipping">
+                <p><strong>Available Shipping</strong></p>
+                <?php
+                foreach ($shipping_instances as $instance_id => $method_instance){
+                    if (in_array($instance_id, $available_shipping)){
+                        $method_title = isset($method_instance->title) ? esc_html($method_instance->title) : '';
+                                ?>
+                                <input type="checkbox" name="time_slot_available_shipping[]" value="<?php echo esc_attr($instance_id); ?>" id="<?php echo esc_attr($instance_id); ?>" checked>
+                                <label for="<?php echo esc_attr($instance_id); ?>"><?php echo $method_title; ?></label><br><br>
+                                <?php
+                        }
+                        else{
+                            $method_title = isset($method_instance->title) ? esc_html($method_instance->title) : '';
+                                    ?>
+                                    <input type="checkbox" name="time_slot_available_shipping[]" value="<?php echo esc_attr($instance_id); ?>" id="<?php echo esc_attr($instance_id); ?>">
+                                    <label for="<?php echo esc_attr($instance_id); ?>"><?php echo $method_title; ?></label><br><br>
+                                    <?php
+                        }
+                    }
+                ?>
             </div>
         <?php
     }
@@ -177,6 +214,13 @@ class WooCommerce_TimeFlow_Delivery_Time_Slot_CPT {
             $fee = sanitize_text_field($_POST['time_slot_fee']);
         }
 
+        $available_shipping = array();
+        if (isset($_POST['time_slot_available_shipping']) && is_array($_POST['time_slot_available_shipping'])){
+            foreach($_POST['time_slot_available_shipping'] as $shipping){
+                $available_shipping[] = sanitize_text_field($shipping);
+            }
+        }
+
         /** updating meta */
 
         if (isset($start_time)){
@@ -191,6 +235,10 @@ class WooCommerce_TimeFlow_Delivery_Time_Slot_CPT {
 
         if (isset($fee))
             update_post_meta($post_id, '_time_slot_fee', $fee);
+
+        if (isset($available_shipping)){
+            update_post_meta($post_id, '_time_slot_available_shipping', $available_shipping);
+        }
         
 	}
 

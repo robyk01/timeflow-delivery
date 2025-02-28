@@ -3,6 +3,9 @@
 
 function display_time_slot_checkout_field(){
     ?>
+    <div class="timeflow_title">
+        <h3><?php _e('Delivery Time Slot', 'timeflow'); ?></h3>
+    </div>
     <div class="timeflow_date_slot">
         <label for="date_slot_selection">Alege data:</label>
         <input type="date" name="date_slot_selection" id="date_slot_selection">
@@ -15,7 +18,7 @@ function display_time_slot_checkout_field(){
     </div>
     <?php
 }
-add_action('woocommerce_before_order_notes', 'display_time_slot_checkout_field', 20);
+add_action('woocommerce_checkout_before_order_review', 'display_time_slot_checkout_field', 20);
 
 
 
