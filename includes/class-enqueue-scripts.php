@@ -15,7 +15,6 @@ function timeflow_enqueue_checkout_script() {
         wp_enqueue_script(
             'update_fees',
             plugin_dir_url(__FILE__) . '../assets/js/update_fees.js',
-            array ('jquery'),
             '1.0.0',
             true
         );
@@ -25,7 +24,7 @@ function timeflow_enqueue_checkout_script() {
             'timeflow_ajax_fees_params',
             array(
                 'ajax_url' => admin_url('admin-ajax.php'),
-                'security_nonce' => wp_create_nonce('timeflow_ajax_fees'),
+                'nonce' => wp_create_nonce('timeflow_ajax_fees')
             )
         );
 

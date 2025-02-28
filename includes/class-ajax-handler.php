@@ -64,11 +64,3 @@ function save_time_slot_selection() {
 
 add_action('wp_ajax_reset_fee_added_flag', 'reset_fee_added_flag');
 add_action('wp_ajax_nopriv_reset_fee_added_flag', 'reset_fee_added_flag');
-
-function reset_fee_added_flag() {
-    check_ajax_referer('timeflow_ajax_fees', 'security');
-
-    WC()->session->__unset('fee_added');
-    wp_send_json_success('Fee added flag reset');
-    wp_die();
-}

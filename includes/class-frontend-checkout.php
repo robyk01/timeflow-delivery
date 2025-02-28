@@ -10,7 +10,7 @@ function display_time_slot_checkout_field(){
     <div class="timeflow_time_slot">
         <label for="time_slot_selection">Alege ora:</label>
         <select name="time_slot_selection" id="time_slot_selection">
-            <option>-</option>
+            <option value="">-</option>
         </select>
     </div>
     <?php
