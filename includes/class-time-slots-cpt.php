@@ -105,6 +105,9 @@ class WooCommerce_TimeFlow_Delivery_Time_Slot_CPT {
         $shipping_zones = WC_Shipping_Zones::get_zones();
         $shipping_instances = array();
         $available_shipping = get_post_meta($post->ID, '_time_slot_available_shipping', true);
+        if ( ! is_array($available_shipping) ) {
+            $available_shipping = ! empty($available_shipping) ? array($available_shipping) : array();
+        }
 
         foreach ($shipping_zones as $zone_data){
             $zone = new WC_Shipping_Zone($zone_data['id']);

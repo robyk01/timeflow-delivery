@@ -18,7 +18,7 @@
                         if (response && response.success){
                             var timeSlotSelect = $('#time_slot_selection');
                             timeSlotSelect.empty();
-                            timeSlotSelect.append('<option>-</option>');
+                            timeSlotSelect.append('<option value="">-</option>');
                             $.each(response.data, function(index, timeSlot){
                                 timeSlotSelect.append('<option value="' + timeSlot.id + '">' + timeSlot.range + ' ' + 'Fee: ' + timeSlot.fee + '</option>');
                             });
