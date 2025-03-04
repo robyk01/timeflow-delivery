@@ -1,0 +1,16 @@
+.delivery-section{
+    width: 100%;
+    display: flex;
+}
+
+.delivery-buttons{
+    font-size: 14px;
+    border: 2px solid grey;
+    padding: 7px 14px;
+    background-color: transparent;
+}
+
+.delivery-buttons.selected{
+    background-color: lightgreen;
+    border: green;
+}

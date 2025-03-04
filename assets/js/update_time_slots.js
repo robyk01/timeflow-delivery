@@ -2,17 +2,23 @@
 
     $(document).ready(function(){
         var $dateInputField = $('#date_slot_selection');
+        var $shippingButton = $('#shipping');
+        var $pickupButton = $('#pickup');
+        var $deliveryInput = $('#delivery-type');
 
-        $dateInputField.on('change', function(){
-            var selectedDate = $(this).val();
-            if (selectedDate){
+        function updateTimeSlots(selectedDate, deliveryType){
+            if (!selectedDate || !deliveryType){
+                console.warn('No date or delivery type selected');
+                return;
+            }
                 $.ajax({
                     url: timeflow_ajax_params.ajax_url,
                     type: 'POST',
                     data: {
                        action: 'timeflow_get_time_slots',
                        security: timeflow_ajax_params.security_nonce,
-                       date_slot_selection: selectedDate
+                       date_slot_selection: selectedDate,
+                       delivery_type: deliveryType
                     },
                     success: function(response){
                         if (response && response.success){
@@ -32,10 +38,37 @@
                     }
                 });
             }
-            else{
-                console.log('No date selected');
-            }
+
+        $dateInputField.on('change', function(){
+            var selectedDate = $(this).val();
+            var deliveryType = $deliveryInput.val();
+            updateTimeSlots(selectedDate, deliveryType);
         });
+
+        $shippingButton.on('click', function(e){
+            e.preventDefault();
+            var deliveryType = $(this).data('delivery-type');
+            $deliveryInput.val(deliveryType);
+
+            $shippingButton.addClass('selected')
+            $pickupButton.removeClass('selected');
+
+            var selectedDate = $dateInputField.val();
+            updateTimeSlots(selectedDate, deliveryType);
+        });
+
+        $pickupButton.on('click', function(e){
+            e.preventDefault();
+            var deliveryType = $(this).data('delivery-type');
+            $deliveryInput.val(deliveryType);
+
+            $pickupButton.addClass('selected');
+            $shippingButton.removeClass('selected');
+
+            var selectedDate = $dateInputField.val();
+            updateTimeSlots(selectedDate, deliveryType);
+        });
+
     });
 
 })(jQuery);

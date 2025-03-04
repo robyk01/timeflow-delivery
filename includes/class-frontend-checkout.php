@@ -1,5 +1,17 @@
 <?php
 
+function display_delivery(){
+    ?>
+    <div class="delivery_selection">
+        <p><strong>Select Delivery</strong></p>
+        <button id="shipping" data-delivery-type="shipping" class="delivery-buttons">Shipping</button>
+        <button id="pickup" data-delivery-type="pickup" class="delivery-buttons">Pickup</button>
+        <input type="hidden" id="delivery-type" name="delivery-type" value="">
+    </div>
+    <?php
+}
+add_action('woocommerce_checkout_before_order_review', 'display_delivery');
+
 
 function display_time_slot_checkout_field(){
     ?>

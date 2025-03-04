@@ -36,5 +36,13 @@ function timeflow_enqueue_checkout_script() {
                 'security_nonce' => wp_create_nonce( 'timeflow_ajax_nonce' ),
             )
         );
+
+        wp_enqueue_style(
+            'delivery-buttons',
+            plugin_dir_url(__FILE__) . '../assets/css/delivery-buttons.css',
+            array(),
+            '1.0.1',
+            'all'
+        );
     }
 }
