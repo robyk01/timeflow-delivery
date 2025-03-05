@@ -19,9 +19,9 @@ function timeflow_get_time_slots(){
     $day_of_week = strtolower(date('l', strtotime($selected_date)));
 
     if ($delivery_type === 'shipping'){
-        $shipping_value = 'flat_rate';
+        $shipping_value = '2';
     } else {
-        $shipping_value = 'local_pickup';
+        $shipping_value = '4';
     }
 
     $args = array(
@@ -30,12 +30,12 @@ function timeflow_get_time_slots(){
             'relation' => 'AND',
             array(
                 'key'     => '_time_slot_available_days',
-                'value'   => '%' . $day_of_week . '%',
+                'value'   => $day_of_week,
                 'compare' => 'LIKE',
             ),
             array(
                 'key'     => '_time_slot_available_shipping',
-                'value'   => '%' . $shipping_value . '%',  
+                'value'   => '"' . $shipping_value . '"',
                 'compare' => 'LIKE',
             ),
         ),
@@ -65,7 +65,7 @@ function timeflow_get_time_slots(){
         wp_send_json_success($time_slots);
     } else {
         // Log no results found
-        error_log('No time slots found for day: '.$day_of_week.' and shipping value: '.$shipping_value);
+        error_log('No time slots found shipping value: '.$shipping_value);
         wp_send_json_error('No time slots available');
     }
     
@@ -89,3 +89,21 @@ function save_time_slot_selection() {
     wp_die(); 
 }
 
+add_action('wp_ajax_save_delivery_type_session', 'save_delivery_type_session');
+add_action('wp_ajax_nopriv_save_delivery_type_session', 'save_delivery_type_session');
+
+
+add_action('wp_ajax_save_delivery_type_session', 'save_delivery_type_session');
+add_action('wp_ajax_nopriv_save_delivery_type_session', 'save_delivery_type_session');
+
+function save_delivery_type_session() {
+    check_ajax_referer('timeflow_ajax_fees', 'security');
+
+    if (isset($_POST['delivery_type'])) {
+        WC()->session->set('timeflow_delivery_type', sanitize_text_field($_POST['delivery_type']));
+        wp_send_json_success('Delivery type session saved: ' . $_POST['delivery_type']);
+    } else {
+        wp_send_json_error('Delivery type not provided');
+    }
+    wp_die();
+}

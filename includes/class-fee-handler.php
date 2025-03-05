@@ -29,7 +29,7 @@ function timeflow_get_time_slot_fee($time_slot_id){
 }
 
 function timeflow_clear_time_slot_session() {
-    if ( is_checkout() && $_SERVER['REQUEST_METHOD'] === 'GET' ) {
+    if ( is_checkout() && $_SERVER['REQUEST_METHOD'] === 'GET' && empty($_GET['wc-ajax']) ) {
         WC()->session->__unset('time_slot_selection_id');
     }
 }
