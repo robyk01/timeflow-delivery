@@ -60,25 +60,26 @@
         });
     }
 
-    function setDeliveryTypeSession(deliveryType) { 
-        $.ajax({
-            url: timeflow_ajax_fees_params.ajax_url,
-            type: 'POST',
-            data: {
-                action: 'save_delivery_type_session', 
-                security: timeflow_ajax_fees_params.nonce, 
-                delivery_type: deliveryType
-            },
-            success: function(response) {
-                console.log('Delivery type session set:', deliveryType, response);
-                $(document.body).trigger('update_checkout');
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.error('Error setting delivery type session:', deliveryType, textStatus, errorThrown);
+    function updateDeliveryTypeSession(deliveryType, callback) {
+        const data = new URLSearchParams();
+        data.append('action', 'save_delivery_type_session');
+        data.append('delivery_type', deliveryType);
+        data.append('security', timeflow_ajax_params.security_nonce);
+    
+        fetch(timeflow_ajax_params.ajax_url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: data.toString()
+        })
+        .then(response => response.json())
+        .then(json => {
+            console.log("Delivery type updated:", json);
+            if (typeof callback === 'function') {
+                callback();
             }
-        });
+        })
+        .catch(error => console.error(error));
     }
-
 
     $(document).ready(function(){
         var $dateInputField = $('#date_slot_selection');
@@ -96,32 +97,32 @@
 
         $shippingButton.on('click', function(e){
             e.preventDefault();
-            var deliveryType = $(this).data('delivery-type');
+            const deliveryType = $(this).data('delivery-type');
             $deliveryInput.val(deliveryType);
             $shippingButton.addClass('selected');
             $pickupButton.removeClass('selected');
-
-            setDeliveryTypeSession(deliveryType);
-
-            var selectedDate = $dateInputField.val();
+            
+            updateDeliveryTypeSession(deliveryType, function(){
+                const selectedDate = $dateInputField.val();
                 clearTimeSlotSelection(function(){
                     updateTimeSlots(selectedDate, deliveryType);
                 });
+            });
         });
 
         $pickupButton.on('click', function(e){
             e.preventDefault();
-            var deliveryType = $(this).data('delivery-type'); 
+            const deliveryType = $(this).data('delivery-type');
             $deliveryInput.val(deliveryType);
             $pickupButton.addClass('selected');
             $shippingButton.removeClass('selected');
-        
-            setDeliveryTypeSession(deliveryType); 
-
-            var selectedDate = $dateInputField.val();
+            
+            updateDeliveryTypeSession(deliveryType, function(){
+                const selectedDate = $dateInputField.val();
                 clearTimeSlotSelection(function(){
                     updateTimeSlots(selectedDate, deliveryType);
                 });
+            });
         });
 
     });

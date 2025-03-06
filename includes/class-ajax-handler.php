@@ -64,7 +64,6 @@ function timeflow_get_time_slots(){
         }
         wp_send_json_success($time_slots);
     } else {
-        // Log no results found
         error_log('No time slots found shipping value: '.$shipping_value);
         wp_send_json_error('No time slots available');
     }
@@ -92,18 +91,15 @@ function save_time_slot_selection() {
 add_action('wp_ajax_save_delivery_type_session', 'save_delivery_type_session');
 add_action('wp_ajax_nopriv_save_delivery_type_session', 'save_delivery_type_session');
 
+function save_delivery_type_session() {
+    check_ajax_referer('timeflow_ajax_nonce', 'security');
 
+    if ( isset($_POST['delivery_type']) ) {
+        $delivery_type = sanitize_text_field($_POST['delivery_type']);
+        WC()->session->set('timeflow_delivery_type', $delivery_type);
+        wp_send_json_success("Delivery type updated");
+    }
+    wp_send_json_error("Delivery type not provided");
+}
 add_action('wp_ajax_save_delivery_type_session', 'save_delivery_type_session');
 add_action('wp_ajax_nopriv_save_delivery_type_session', 'save_delivery_type_session');
-
-function save_delivery_type_session() {
-    check_ajax_referer('timeflow_ajax_fees', 'security');
-
-    if (isset($_POST['delivery_type'])) {
-        WC()->session->set('timeflow_delivery_type', sanitize_text_field($_POST['delivery_type']));
-        wp_send_json_success('Delivery type session saved: ' . $_POST['delivery_type']);
-    } else {
-        wp_send_json_error('Delivery type not provided');
-    }
-    wp_die();
-}

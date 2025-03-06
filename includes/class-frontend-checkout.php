@@ -32,37 +32,6 @@ function display_time_slot_checkout_field(){
 }
 add_action('woocommerce_checkout_before_order_review', 'display_time_slot_checkout_field', 20);
 
-function timeflow_modify_shipping_rates($rates, $package) {
-    $delivery_type = WC()->session->get('timeflow_delivery_type');
-    if (empty($delivery_type)) {
-        $delivery_type = 'shipping'; 
-    }
-
-    error_log('Delivery type in shipping filter (effective): ' . $delivery_type);
-    error_log('Before filtering, shipping methods: ' . print_r(array_keys($rates), true));
-
-    $filtered_rates = array();
-
-    foreach ($rates as $rate_id => $rate) {
-        error_log('--- Rate ID: ' . $rate->id . ', Method ID: ' . $rate->method_id . ', Label: ' . $rate->label);
-        if ($delivery_type === 'shipping') {
-            if (strpos($rate->method_id, 'flat_rate') !== false) {
-                $filtered_rates[$rate_id] = $rate;
-            }
-        } elseif ($delivery_type === 'pickup') {
-            if (strpos($rate->method_id, 'local_pickup') !== false) {
-                $filtered_rates[$rate_id] = $rate;
-            }
-        }
-    }
-
-    error_log('After filtering, shipping methods: ' . print_r(array_keys($filtered_rates), true));
-
-    return $filtered_rates;
-}
-add_filter('woocommerce_package_rates', 'timeflow_modify_shipping_rates', 10, 2);
-
-
 
 function save_time_slot_checkout($order_id){
     $selected_time_slot = '';
@@ -80,10 +49,22 @@ function save_time_slot_checkout($order_id){
     update_post_meta($order_id, '_delivery_time_slot_id', $selected_time_slot);
 
 }
-add_action('woocommerce_checkout_update_order_meta', 'save_time_slot_checkout', 20, 1);
+add_action('woocommerce_checkout_update_order_meta', 'save_time_slot_checkout');
 
 
+add_filter('woocommerce_cart_needs_shipping', '__return_false');
 
+function display_custom_delivery_type() {
+    $delivery_type = WC()->session->get('timeflow_delivery_type');
+    if ( $delivery_type ) {
+        $label = $delivery_type === 'shipping' ? 'Shipping' : 'Pickup';
+        echo '<tr class="delivery-type">
+                <th>Delivery Type</th>
+                <td>' . esc_html($label) . '</td>
+              </tr>';
+    }
+}
+add_action('woocommerce_review_order_before_order_total', 'display_custom_delivery_type');
 
 
 function display_time_slot_in_order_details($order){
