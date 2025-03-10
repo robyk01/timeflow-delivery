@@ -1,17 +1,24 @@
 <?php
 
+/* function wc_custom_checkout_fields() {
+    if ( is_checkout() && !is_wc_endpoint_url( 'order-received' ) ) {
+        echo do_shortcode('[display_delivery]');
+        echo do_shortcode('[display_time_slots]');
+    }
+}
+add_action( 'woocommerce_after_order_notes', 'wc_custom_checkout_fields' );*/
+
 function display_delivery(){
     ?>
     <div class="delivery_selection">
         <p><strong>Select Delivery</strong></p>
-        <button id="shipping" data-delivery-type="shipping" class="delivery-buttons">Shipping</button>
-        <button id="pickup" data-delivery-type="pickup" class="delivery-buttons">Pickup</button>
+        <button type="button" id="shipping" data-delivery-type="shipping" class="delivery-buttons">Shipping</button>
+        <button type="button" id="pickup" data-delivery-type="pickup" class="delivery-buttons">Pickup</button>
         <input type="hidden" id="delivery-type" name="delivery-type" value="">
     </div>
     <?php
 }
-add_action('woocommerce_checkout_before_order_review', 'display_delivery');
-
+add_action('woocommerce_review_order_after_order_total', 'display_delivery');
 
 function display_time_slot_checkout_field(){
     ?>
@@ -30,7 +37,8 @@ function display_time_slot_checkout_field(){
     </div>
     <?php
 }
-add_action('woocommerce_checkout_before_order_review', 'display_time_slot_checkout_field', 20);
+add_action('woocommerce_review_order_after_order_total', 'display_time_slot_checkout_field');
+
 
 
 function save_time_slot_checkout($order_id){
