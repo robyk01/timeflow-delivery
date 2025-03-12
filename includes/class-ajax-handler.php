@@ -19,9 +19,9 @@ function timeflow_get_time_slots(){
     $day_of_week = strtolower(date('l', strtotime($selected_date)));
 
     if ($delivery_type === 'shipping'){
-        $shipping_value = '2';
+        $shipping_value = '1';
     } else {
-        $shipping_value = '4';
+        $shipping_value = '2';
     }
 
     $args = array(
@@ -44,7 +44,6 @@ function timeflow_get_time_slots(){
         'order'    => 'ASC',
     );
 
-    error_log('Time slots query args: ' . print_r($args, true));
 
     $query = new WP_Query($args);
 
@@ -64,7 +63,6 @@ function timeflow_get_time_slots(){
         }
         wp_send_json_success($time_slots);
     } else {
-        error_log('No time slots found shipping value: '.$shipping_value);
         wp_send_json_error('No time slots available');
     }
     
@@ -91,15 +89,46 @@ function save_time_slot_selection() {
 add_action('wp_ajax_save_delivery_type_session', 'save_delivery_type_session');
 add_action('wp_ajax_nopriv_save_delivery_type_session', 'save_delivery_type_session');
 
-function save_delivery_type_session() {
-    check_ajax_referer('timeflow_ajax_nonce', 'security');
 
-    if ( isset($_POST['delivery_type']) ) {
-        $delivery_type = sanitize_text_field($_POST['delivery_type']);
-        WC()->session->set('timeflow_delivery_type', $delivery_type);
-        wp_send_json_success("Delivery type updated");
+add_action('wp_ajax_save_date_slot_session', 'save_date_slot_session'); 
+add_action('wp_ajax_nopriv_save_date_slot_session', 'save_date_slot_session');
+
+function save_date_slot_session() {
+    if (!check_ajax_referer('timeflow_delivery_nonce', 'security', false)) { 
+        wp_send_json_error('Invalid security token sent.');
+        return;
     }
-    wp_send_json_error("Delivery type not provided");
+
+    if (!isset($_POST['date_slot_selection'])) {
+        wp_send_json_error('Date slot not provided');
+        return;
+    }
+
+    $date_slot_selection = sanitize_text_field($_POST['date_slot_selection']);
+
+    WC()->session->set('time_slot_selection_date', $date_slot_selection); 
+    wp_send_json_success("Date slot updated to: " . $date_slot_selection);
 }
+
+
+function save_delivery_type_session() {
+
+    if (!check_ajax_referer('timeflow_delivery_nonce', 'security', false)) {
+        wp_send_json_error('Invalid security token sent.');
+        return;
+    }
+
+    if (!isset($_POST['delivery_type'])) {
+        wp_send_json_error('Delivery type not provided');
+        return;
+    }
+
+    $delivery_type = sanitize_text_field($_POST['delivery_type']);
+    
+
+    WC()->session->set('timeflow_delivery_type', $delivery_type);
+    wp_send_json_success("Delivery type updated to: " . $delivery_type);
+}
+
 add_action('wp_ajax_save_delivery_type_session', 'save_delivery_type_session');
 add_action('wp_ajax_nopriv_save_delivery_type_session', 'save_delivery_type_session');

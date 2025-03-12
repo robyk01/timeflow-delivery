@@ -1,16 +1,48 @@
-.delivery-section{
-    width: 100%;
+.delivery-selection {
+    margin: 20px 0;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.delivery-section-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.delivery-buttons-container {
     display: flex;
+    gap: 10px;
+    margin-top: 10px;
 }
 
-.delivery-buttons{
-    font-size: 14px;
-    border: 2px solid grey;
-    padding: 7px 14px;
-    background-color: transparent;
+.delivery-buttons {
+    flex: 1;
+    padding: 12px 20px;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    background-color: white;
+    color: #555;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
-.delivery-buttons.selected{
-    background-color: lightgreen;
-    border: green;
+.delivery-buttons:hover {
+    border-color: #3498db;
+    color: #3498db;
+}
+
+.delivery-buttons.selected {
+    background-color: #3498db;
+    border-color: #3498db;
+    color: white;
 }

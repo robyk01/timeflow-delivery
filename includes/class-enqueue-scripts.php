@@ -30,10 +30,21 @@ function timeflow_enqueue_checkout_script() {
 
         wp_localize_script(
             'update_time_slots',
-            'timeflow_ajax_params', 
+            'timeflow_ajax_params',
             array(
-                'ajax_url' => admin_url( 'admin-ajax.php' ), 
-                'security_nonce' => wp_create_nonce( 'timeflow_ajax_nonce' ),
+                'ajax_url' => admin_url('admin-ajax.php'),
+                'security_nonce' => wp_create_nonce('timeflow_ajax_nonce'),
+                'delivery_nonce' => wp_create_nonce('timeflow_delivery_nonce')
+            )
+        );
+
+        wp_localize_script(
+            'timeflow-delivery-form',
+            'timeflow_ajax_params',
+            array(
+                'ajax_url'       => admin_url('admin-ajax.php'),
+                'security_nonce' => wp_create_nonce('timeflow_ajax_nonce'), 
+                'delivery_nonce' => wp_create_nonce('timeflow_delivery_nonce'), 
             )
         );
 
@@ -43,6 +54,21 @@ function timeflow_enqueue_checkout_script() {
             array(),
             '1.0.1',
             'all'
+        );
+
+        wp_enqueue_style(
+            'time-slots.css',
+            plugin_dir_url(__FILE__) . '../assets/css/time-slots.css',
+            array(),
+            '1.0.1',
+            'all'
+        );
+
+        wp_enqueue_style(
+            'font-awesome',
+            'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css',
+            array(),
+            '6.0.0'
         );
     }
 }

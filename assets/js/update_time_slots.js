@@ -60,21 +60,48 @@
         });
     }
 
-    function setDeliveryTypeSession(deliveryType) { // Function to set delivery type session and update checkout
+    function setDeliveryTypeSession(deliveryType) {
         $.ajax({
-            url: timeflow_ajax_fees_params.ajax_url, // Use fees AJAX URL
+            url: timeflow_ajax_params.ajax_url,
             type: 'POST',
             data: {
-                action: 'save_delivery_type_session', // PHP action to save session
-                security: timeflow_ajax_fees_params.nonce, // Fees nonce
+                action: 'save_delivery_type_session',
+                security: timeflow_ajax_params.delivery_nonce, 
                 delivery_type: deliveryType
             },
             success: function(response) {
-                console.log('Delivery type session set:', deliveryType, response);
-                $(document.body).trigger('update_checkout'); // **Crucially: Update checkout *after* setting session**
+                if (response.success) {
+                    console.log('Delivery type session set:', deliveryType);
+                    $(document.body).trigger('update_checkout');
+                } else {
+                    console.error('Failed to set delivery type:', response.data);
+                }
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                console.error('Error setting delivery type session:', deliveryType, textStatus, errorThrown);
+                console.error('Error setting delivery type session:', textStatus, errorThrown);
+            }
+        });
+    }
+
+    function setDateSlotSession(dateSlot) { 
+        $.ajax({
+            url: timeflow_ajax_params.ajax_url,
+            type: 'POST',
+            data: {
+                action: 'save_date_slot_session', 
+                security: timeflow_ajax_params.delivery_nonce,
+                date_slot_selection: dateSlot
+            },
+            success: function(response) {
+                if (response.success) {
+                    console.log('Date slot session set:', dateSlot);
+                    $(document.body).trigger('update_checkout');
+                } else {
+                    console.error('Failed to set date slot:', response.data);
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error('Error setting date slot session:', textStatus, errorThrown);
             }
         });
     }
@@ -89,6 +116,9 @@
         $dateInputField.on('change', function(){
             var selectedDate = $(this).val();
             var deliveryType = $deliveryInput.val();
+
+            setDateSlotSession(selectedDate);
+            
             clearTimeSlotSelection(function(){
                 updateTimeSlots(selectedDate, deliveryType);
             });
@@ -122,6 +152,32 @@
                 clearTimeSlotSelection(function(){
                     updateTimeSlots(selectedDate, deliveryType);
                 });
+        });
+
+        $('form.checkout').on('checkout_place_order', function() {
+            var deliveryType = $('#delivery-type').val();
+            var dateSelected = $('#date_slot_selection').val();
+            var timeSlotSelected = $('#time_slot_selection').val();
+    
+            if (!deliveryType) {
+                alert('Please select a delivery method.');
+                $('#timeflow-delivery-selection').get(0).scrollIntoView();
+                return false;
+            }
+    
+            if (!dateSelected) {
+                alert('Please select a delivery date.');
+                $('#date_slot_selection').focus();
+                return false;
+            }
+    
+            if (!timeSlotSelected) {
+                alert('Please select a delivery time slot.');
+                $('#time_slot_selection').focus();
+                return false;
+            }
+    
+            return true;
         });
 
     });
