@@ -42,6 +42,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             <?php // Change to text input for Flatpickr ?>
             <input type="text"
                    id="date_slot_selection"
+                   name="date_slot_selection"
                    class="timeflow-date-picker" <?php // Add class for targeting ?>
                    placeholder="<?php esc_attr_e('Select a date', 'woocommerce-timeflow-delivery'); ?>" 
                    required
