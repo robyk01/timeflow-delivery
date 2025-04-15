@@ -1,0 +1,214 @@
+/**
+ * TimeFlow Delivery Admin Styles
+ */
+
+/* Admin Tabs */
+.timeflow-admin .nav-tab-wrapper {
+    margin-bottom: 20px;
+}
+
+/* Admin Cards */
+.timeflow-admin-card {
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+.timeflow-admin-card h2 {
+    margin-top: 0;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+/* Form Elements */
+.timeflow-form .form-row {
+    margin-bottom: 15px;
+}
+
+.timeflow-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.timeflow-form input[type="text"],
+.timeflow-form input[type="number"],
+.timeflow-form input[type="time"],
+.timeflow-form input[type="date"],
+.timeflow-form select {
+    width: 100%;
+    max-width: 400px;
+}
+
+.timeflow-form .checkbox-group {
+    margin-top: 5px;
+}
+
+.timeflow-form .checkbox-group label {
+    display: inline-block;
+    margin-right: 15px;
+    font-weight: normal;
+}
+
+/* Report Filters */
+.report-filters {
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.report-filters .form-row {
+    display: inline-block;
+    margin-right: 15px;
+    margin-bottom: 0;
+}
+
+/* Time Slots List */
+.timeflow-admin table {
+    margin-top: 15px;
+}
+
+.timeflow-admin .column-time_range {
+    width: 25%;
+}
+
+.timeflow-admin .column-available_days {
+    width: 35%;
+}
+
+.timeflow-admin .column-fee {
+    width: 15%;
+}
+
+.timeflow-admin .column-actions {
+    width: 25%;
+    text-align: right;
+}
+
+/* Quick Edit */
+.timeflow-modal {
+    display: block;
+    position: fixed;
+    z-index: 100000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.timeflow-modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    max-width: 500px;
+    position: relative;
+}
+
+.timeflow-modal-close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.timeflow-modal-close:hover {
+    color: #000;
+}
+
+/* Report Display */
+.timeflow-report-summary {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.report-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 20px;
+    flex: 1;
+    text-align: center;
+}
+
+.report-card h3 {
+    margin: 0 0 10px;
+    color: #23282d;
+    font-size: 14px;
+}
+
+.report-value {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+    color: #0073aa;
+}
+
+.timeflow-report-charts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.report-section {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 20px;
+}
+
+.report-section h3 {
+    margin: 0 0 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+/* Loading State */
+.loading {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+}
+
+/* Error State */
+.error {
+    background: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 4px;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 782px) {
+    .timeflow-report-summary {
+        flex-direction: column;
+    }
+    
+    .timeflow-modal-content {
+        width: 90%;
+        margin: 10% auto;
+    }
+    
+    .report-filters .form-row {
+        display: block;
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+    
+    .timeflow-form input[type="text"],
+    .timeflow-form input[type="number"],
+    .timeflow-form input[type="time"],
+    .timeflow-form input[type="date"],
+    .timeflow-form select {
+        max-width: 100%;
+    }
+} 
