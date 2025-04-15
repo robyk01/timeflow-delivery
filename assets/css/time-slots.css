@@ -46,7 +46,7 @@
 .timeflow_date_slot input[type="date"]:focus,
 .timeflow_time_slot select:focus {
     outline: none;
-    border-color: #3498db;
+    border-color: #9A5294;
 }
 
 .timeflow_time_slot select {

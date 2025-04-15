@@ -3,7 +3,7 @@
 .timeflow-delivery-form {
     margin-bottom: 20px;
     padding: 15px;
-    border: 2px solid #3498db;
+    border: 2px solid #9A5294;
     border-radius: 4px;
     background-color: #f8f9fa;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -62,7 +62,7 @@
 
 .timeflow_date_slot input:focus,
 .timeflow_time_slot select:focus {
-    border-color: #3498db;
+    border-color: #9A5294;
     outline: none;
     box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
 }
