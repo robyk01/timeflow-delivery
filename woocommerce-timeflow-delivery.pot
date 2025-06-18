@@ -1,0 +1,436 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce TimeFlow Delivery\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-04-15 13:31+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.7.1; wp-6.7.2\n"
+"X-Domain: woocommerce-timeflow-delivery"
+
+#: templates/admin/time-slots.php:116
+msgid "Actions"
+msgstr ""
+
+#: includes/class-settings.php:178 templates/admin/time-slots.php:298
+msgid "Add Date"
+msgstr ""
+
+#: includes/class-time-slots-cpt.php:29
+msgctxt "add new on admin bar"
+msgid "Time Slot"
+msgstr ""
+
+#: includes/class-time-slots-cpt.php:31 templates/admin/time-slots.php:36
+msgid "Add New Time Slot"
+msgstr ""
+
+#: templates/admin/time-slots.php:90
+msgid "Add Time Slot"
+msgstr ""
+
+#: includes/class-time-slots-cpt.php:28
+msgctxt "admin menu"
+msgid "Time Slots"
+msgstr ""
+
+#: includes/class-time-slots-cpt.php:35
+msgid "All Time Slots"
+msgstr ""
+
+#. Description of the plugin
+msgid ""
+"Allows customers to select delivery date and time slots during WooCommerce "
+"checkout, including setting unavailable dates and time slot fees."
+msgstr ""
+
+#. Author of the plugin
+msgid "Amore Roberto"
+msgstr ""
+
+#: includes/class-admin-ui.php:87
+msgid "An error occurred."
+msgstr ""
+
+#: includes/class-frontend-checkout.php:124
+msgid "An unexpected error occurred."
+msgstr ""
+
+#: includes/class-admin-ui.php:88
+msgid "Are you sure you want to delete this time slot?"
+msgstr ""
+
+#: includes/class-admin-ui.php:92 templates/admin/time-slots.php:51
+#: templates/admin/time-slots.php:113
+msgid "Available Days"
+msgstr ""
+
+#: templates/checkout-form.php:54
+msgid "Choose a time slot"
+msgstr ""
+
+#: includes/class-settings.php:102
+msgid "Configure general delivery settings."
+msgstr ""
+
+#: includes/class-ajax-handler.php:52
+msgid "Date is required"
+msgstr ""
+
+#: templates/admin/time-slots.php:219
+msgid "Date Range"
+msgstr ""
+
+#: includes/class-ajax-handler.php:417
+msgid "Date slot is required"
+msgstr ""
+
+#: templates/admin/time-slots.php:254
+msgid "Default Delivery Fee"
+msgstr ""
+
+#: templates/admin/time-slots.php:266
+msgid "Default delivery fee for time slots (leave empty for no fee)"
+msgstr ""
+
+#: templates/admin/time-slots.php:166
+msgid "Delete"
+msgstr ""
+
+#: includes/class-admin-ui.php:142
+msgid "Delivery Date:"
+msgstr ""
+
+#: includes/class-frontend-checkout.php:370 templates/admin/time-slots.php:76
+msgid "Delivery Fee"
+msgstr ""
+
+#: includes/class-admin-ui.php:126
+msgid "Delivery Information"
+msgstr ""
+
+#: includes/class-admin-ui.php:94 templates/admin/time-slots.php:81
+#: templates/admin/time-slots.php:115
+msgid "Delivery Method"
+msgstr ""
+
+#: includes/class-admin-ui.php:131
+msgid "Delivery Method:"
+msgstr ""
+
+#: includes/class-ajax-handler.php:399
+msgid "Delivery type is required"
+msgstr ""
+
+#: includes/class-time-slots-cpt.php:33
+msgid "Edit Time Slot"
+msgstr ""
+
+#: includes/class-admin-ui.php:91 templates/admin/time-slots.php:46
+msgid "End Time"
+msgstr ""
+
+#: includes/class-ajax-handler.php:344
+msgid "End time is required"
+msgstr ""
+
+#: includes/class-ajax-handler.php:147 includes/class-ajax-handler.php:250
+#: includes/class-ajax-handler.php:360
+msgid "End time must be after start time"
+msgstr ""
+
+#: includes/class-frontend-checkout.php:123
+msgid "Error fetching time slots. Please try again."
+msgstr ""
+
+#: templates/admin/time-slots.php:97
+msgid "Existing Time Slots"
+msgstr ""
+
+#: includes/class-ajax-handler.php:307
+msgid "Failed to delete time slot"
+msgstr ""
+
+#: includes/class-ajax-handler.php:386
+msgid "Failed to update time slot"
+msgstr ""
+
+#: includes/class-admin-ui.php:93 templates/admin/time-slots.php:114
+msgid "Fee"
+msgstr ""
+
+#: includes/class-admin-ui.php:102 templates/admin/time-slots.php:59
+msgid "Friday"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://example.com/"
+msgstr ""
+
+#. URI of the plugin
+msgid "https://example.com/woocommerce-timeflow-delivery/"
+msgstr ""
+
+#: includes/class-ajax-handler.php:202 includes/class-ajax-handler.php:292
+msgid "Invalid post ID"
+msgstr ""
+
+#: includes/class-ajax-handler.php:298 includes/class-ajax-handler.php:336
+msgid "Invalid time slot"
+msgstr ""
+
+#: includes/class-ajax-handler.php:330
+msgid "Invalid time slot ID"
+msgstr ""
+
+#: includes/class-admin-ui.php:98 templates/admin/time-slots.php:55
+msgid "Monday"
+msgstr ""
+
+#: includes/class-time-slots-cpt.php:32
+msgid "New Time Slot"
+msgstr ""
+
+#: includes/class-frontend-checkout.php:122
+msgid "No time slots available for this date."
+msgstr ""
+
+#: includes/class-time-slots-cpt.php:39
+msgid "No time slots found in Trash."
+msgstr ""
+
+#: includes/class-time-slots-cpt.php:38 templates/admin/time-slots.php:174
+msgid "No time slots found."
+msgstr ""
+
+#: includes/class-settings.php:172 includes/class-settings.php:221
+#: templates/admin/time-slots.php:293 templates/admin/time-slots.php:330
+msgid "No unavailable dates set."
+msgstr ""
+
+#: includes/class-admin-ui.php:136 includes/class-admin-ui.php:147
+#: includes/class-admin-ui.php:167
+msgid "Not Selected"
+msgstr ""
+
+#: templates/admin/time-slots.php:227
+msgid "Number of days in advance customers can book delivery slots"
+msgstr ""
+
+#: includes/class-time-slots-cpt.php:37
+msgid "Parent Time Slots:"
+msgstr ""
+
+#: includes/class-admin-ui.php:96 includes/class-admin-ui.php:133
+#: templates/checkout-form.php:23 templates/admin/time-slots.php:84
+#: templates/admin/time-slots.php:154
+msgid "Pickup"
+msgstr ""
+
+#: includes/class-ajax-handler.php:139 includes/class-ajax-handler.php:242
+msgid "Please fill in all required fields"
+msgstr ""
+
+#: includes/class-admin-ui.php:105
+msgid "Please fill in all required fields."
+msgstr ""
+
+#: includes/class-settings.php:208 templates/admin/time-slots.php:320
+msgid "Please select a date"
+msgstr ""
+
+#: includes/class-frontend-checkout.php:120
+msgid "Please select a date first."
+msgstr ""
+
+#: includes/class-frontend-checkout.php:125
+msgid "Please select a delivery method first."
+msgstr ""
+
+#: includes/class-ajax-handler.php:348
+msgid "Please select at least one day"
+msgstr ""
+
+#: includes/class-admin-ui.php:106
+msgid "Please select at least one day."
+msgstr ""
+
+#: includes/class-ajax-handler.php:352
+msgid "Please select at least one delivery method"
+msgstr ""
+
+#: includes/class-admin-ui.php:107
+msgid "Please select at least one delivery method."
+msgstr ""
+
+#: templates/admin/time-slots.php:182
+msgid "Plugin Settings"
+msgstr ""
+
+#: includes/class-time-slots-cpt.php:26
+msgctxt "post type general name"
+msgid "Delivery Time Slots"
+msgstr ""
+
+#: includes/class-time-slots-cpt.php:27
+msgctxt "post type singular name"
+msgid "Delivery Time Slot"
+msgstr ""
+
+#: includes/class-admin-ui.php:89 templates/admin/time-slots.php:162
+msgid "Quick Edit"
+msgstr ""
+
+#: includes/class-settings.php:168 includes/class-settings.php:211
+#: templates/admin/time-slots.php:289 templates/admin/time-slots.php:322
+msgid "Remove"
+msgstr ""
+
+#: templates/admin/time-slots.php:246
+msgid "Require customers to select a delivery time slot"
+msgstr ""
+
+#: templates/admin/time-slots.php:234
+msgid "Require Time Slot Selection"
+msgstr ""
+
+#: includes/class-admin-ui.php:103 templates/admin/time-slots.php:60
+msgid "Saturday"
+msgstr ""
+
+#: includes/class-admin-ui.php:97
+msgid "Save"
+msgstr ""
+
+#: includes/class-time-slots-cpt.php:36
+msgid "Search Time Slots"
+msgstr ""
+
+#: templates/checkout-form.php:46
+msgid "Select a date"
+msgstr ""
+
+#: includes/class-frontend-checkout.php:121
+msgid "Select a time slot"
+msgstr ""
+
+#: templates/checkout-form.php:35
+msgid "Select Date"
+msgstr ""
+
+#: templates/checkout-form.php:32
+msgid "Select Date and Time"
+msgstr ""
+
+#: templates/admin/time-slots.php:306
+msgid ""
+"Select dates when delivery is unavailable (e.g., holidays, store closures)"
+msgstr ""
+
+#: templates/checkout-form.php:15
+msgid "Select Delivery Method"
+msgstr ""
+
+#: templates/checkout-form.php:52
+msgid "Select Time"
+msgstr ""
+
+#: templates/admin/time-slots.php:26
+msgid "Settings"
+msgstr ""
+
+#: templates/admin/time-slots.php:186
+msgid "Settings Saved"
+msgstr ""
+
+#: includes/class-admin-ui.php:95 includes/class-admin-ui.php:133
+#: templates/checkout-form.php:19 templates/admin/time-slots.php:83
+#: templates/admin/time-slots.php:151
+msgid "Shipping"
+msgstr ""
+
+#: includes/class-admin-ui.php:90 templates/admin/time-slots.php:41
+msgid "Start Time"
+msgstr ""
+
+#: includes/class-ajax-handler.php:340
+msgid "Start time is required"
+msgstr ""
+
+#: includes/class-time-slots-cpt.php:44
+msgid "Stores delivery time slots."
+msgstr ""
+
+#: includes/class-admin-ui.php:104 templates/admin/time-slots.php:61
+msgid "Sunday"
+msgstr ""
+
+#: includes/class-settings.php:209 templates/admin/time-slots.php:321
+msgid "This date has already been added."
+msgstr ""
+
+#: includes/class-admin-ui.php:101 templates/admin/time-slots.php:58
+msgid "Thursday"
+msgstr ""
+
+#: templates/admin/time-slots.php:112
+msgid "Time Range"
+msgstr ""
+
+#: includes/class-time-slots-cpt.php:30
+msgctxt "time slot"
+msgid "Add New"
+msgstr ""
+
+#: includes/class-admin-ui.php:152
+msgid "Time Slot:"
+msgstr ""
+
+#: templates/admin/time-slots.php:22 templates/admin/time-slots.php:33
+msgid "Time Slots"
+msgstr ""
+
+#: includes/class-admin-ui.php:36 includes/class-admin-ui.php:37
+#: templates/admin/time-slots.php:17
+msgid "TimeFlow Delivery"
+msgstr ""
+
+#: includes/class-admin-ui.php:99 templates/admin/time-slots.php:56
+msgid "Tuesday"
+msgstr ""
+
+#: templates/admin/time-slots.php:273
+msgid "Unavailable Dates"
+msgstr ""
+
+#: includes/class-time-slots-cpt.php:34
+msgid "View Time Slot"
+msgstr ""
+
+#: includes/class-admin-ui.php:100 templates/admin/time-slots.php:57
+msgid "Wednesday"
+msgstr ""
+
+#. Name of the plugin
+msgid "WooCommerce TimeFlow Delivery"
+msgstr ""
+
+#: woocommerce-timeflow-delivery.php:62
+msgid ""
+"WooCommerce TimeFlow Delivery requires WooCommerce to be installed and "
+"active."
+msgstr ""
+
+#: includes/class-ajax-handler.php:126 includes/class-ajax-handler.php:196
+#: includes/class-ajax-handler.php:232 includes/class-ajax-handler.php:286
+#: includes/class-ajax-handler.php:318
+msgid "You do not have permission to perform this action"
+msgstr ""

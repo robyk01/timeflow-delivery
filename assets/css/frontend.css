@@ -1,0 +1,74 @@
+/* Frontend CSS for TimeFlow Delivery Checkout */
+
+.timeflow-delivery-form {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 2px solid #9A5294;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.timeflow-delivery-form * {
+    box-sizing: border-box;
+}
+
+.delivery-selection {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.timeflow_container {
+    padding: 15px;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+
+/* Shipping details in cart totals */
+.timeflow-shipping-details {
+    margin-top: 5px;
+    color: #666;
+    font-style: italic;
+}
+
+/* Time slot selection styles */
+.timeflow_date_slot,
+.timeflow_time_slot {
+    margin-bottom: 15px;
+}
+
+.timeflow_date_slot label,
+.timeflow_time_slot label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #333;
+}
+
+.timeflow_date_slot input,
+.timeflow_time_slot select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: white;
+    font-size: 14px;
+}
+
+.timeflow_date_slot input:focus,
+.timeflow_time_slot select:focus {
+    border-color: #9A5294;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+/* Ensure time slot container is visible when needed */
+.timeflow_time_slot {
+    display: block;
+    transition: all 0.3s ease;
+}

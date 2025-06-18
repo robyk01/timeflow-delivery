@@ -1,0 +1,26 @@
+{
+    "name": "woocommerce-timeflow-delivery",
+    "version": "2.2.2",
+    "description": "WooCommerce extension for delivery date and time slot selection",
+    "scripts": {
+        "build": "webpack --mode production",
+        "dev": "webpack --mode development --watch",
+        "lint": "eslint assets/js/**/*.js",
+        "lint:fix": "eslint assets/js/**/*.js --fix"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.22.0",
+        "@babel/preset-env": "^7.22.0",
+        "babel-loader": "^9.1.2",
+        "css-loader": "^6.8.1",
+        "eslint": "^8.42.0",
+        "mini-css-extract-plugin": "^2.7.5",
+        "postcss": "^8.4.23",
+        "postcss-loader": "^7.3.3",
+        "sass": "^1.62.1",
+        "sass-loader": "^13.3.1",
+        "terser-webpack-plugin": "^5.3.9",
+        "webpack": "^5.85.0",
+        "webpack-cli": "^5.1.1"
+    }
+} 
