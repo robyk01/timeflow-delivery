@@ -14,7 +14,7 @@
             success: function(response){
                 console.log('Cleared time slot selection and fee.');
                 $('#time_slot_selection').val('').prop('disabled', true);
-                $('.timeflow_time_slot').hide();
+                //$('.timeflow_time_slot').hide();
                 $(document.body).trigger('update_checkout');
                 if (typeof callback === 'function') {
                     callback();
@@ -153,9 +153,9 @@
         const $timeSelect = $('#time_slot_selection');
         const $deliveryTypeInput = $('#delivery-type');
         const $deliveryButtons = $('.delivery-buttons');
-        const $timeSlotContainer = $('.timeflow_time_slot'); // Container for label + select
+        const $timeSlotContainer = $('.timeflow_time_slot'); 
         const $formContainer = $('#timeflow-delivery-form');
-        const $datePickerInput = $('#date_slot_selection.timeflow-date-picker'); // Target our specific input
+        const $datePickerInput = $('#date_slot_selection.timeflow-date-picker'); 
 
         // Initial state
         $timeSelect.prop('disabled', true);
@@ -171,38 +171,30 @@
         if (savedDate && savedDeliveryType) {
             updateTimeSlots(savedDate, savedDeliveryType);
         } else {
-            // Hide time slot container initially if no date is selected
-            $timeSlotContainer.hide();
+            //$timeSlotContainer.hide();
         }
 
         // Initialize Flatpickr
         if ($datePickerInput.length) {
-            flatpickr($datePickerInput[0], { // Pass the DOM element
-                dateFormat: "Y-m-d", // Format expected by backend
+            flatpickr($datePickerInput[0], {
+                dateFormat: "Y-m-d", 
                 minDate: "today",
-                maxDate: new Date().fp_incr(timeflowCheckoutParams.dateRangeDays), // Calculate max date
-                disable: timeflowCheckoutParams.unavailableDates, // Disable specific dates
+                maxDate: new Date().fp_incr(timeflowCheckoutParams.dateRangeDays),
+                disable: timeflowCheckoutParams.unavailableDates, 
                 onChange: function(selectedDates, dateStr, instance) {
-                    // This function triggers when a valid date is SELECTED
                     var selectedDate = dateStr;
                     var deliveryType = $deliveryTypeInput.val();
                     
                     console.log('Flatpickr onChange: ', selectedDate);
                     
-                     // Clear time slot and fee before updating
                      clearTimeSlotSelection(function() {
-                        // Save date to session (optional but good practice)
                         setDateSlotSession(selectedDate);
                         
-                        // If delivery type is already selected, update time slots
                         if (deliveryType) {
                              updateTimeSlots(selectedDate, deliveryType);
                         } else {
-                             // Otherwise, just show prompt (or hide time slots again)
-                             $timeSlotContainer.hide();
+                             //$timeSlotContainer.hide();
                              $timeSelect.prop('disabled', true);
-                             // Optional: Alert user to select delivery type first
-                             // alert(timeflowCheckoutParams.i18n.selectDeliveryPrompt);
                         }
                      });
                 }
@@ -214,15 +206,11 @@
             var deliveryType = $(this).data('delivery-type');
             var $clickedButton = $(this);
             
-            // Update UI immediately for responsiveness
             $('.delivery-buttons').removeClass('selected');
             $clickedButton.addClass('selected');
             
-            // Update hidden input
             $('#delivery-type').val(deliveryType);
             
-            // --- Chain AJAX calls --- 
-            // 1. Save Delivery Type to session
             $.ajax({
                 url: timeflowCheckoutParams.ajaxUrl,
                 type: 'POST',
@@ -235,9 +223,7 @@
                     if (response.success) {
                         console.log('Delivery type session set:', deliveryType);
                         
-                        // 2. Clear Time Slot selection *after* delivery type is saved
                         clearTimeSlotSelection(function() {
-                            // This callback inside clearTimeSlotSelection triggers update_checkout
                             
                             var selectedDate = $('#date_slot_selection').val();
                             if (selectedDate) {
@@ -248,15 +234,10 @@
 
                     } else {
                         console.error('Failed to set delivery type:', response.data);
-                        // Revert UI selection on error?
-                        // $clickedButton.removeClass('selected'); 
-                        // Consider if previous button should be re-selected
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.error('Error setting delivery type session:', textStatus, errorThrown);
-                     // Revert UI selection on error?
-                     // $clickedButton.removeClass('selected');
                 }
             });
             

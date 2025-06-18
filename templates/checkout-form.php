@@ -37,7 +37,6 @@ if ( ! defined( 'ABSPATH' ) ) {
                 $date_range_days = WooCommerce_TimeFlow_Delivery_Settings::get_setting('timeflow_delivery_date_range', 14);
                 $date_range_days = max(1, intval($date_range_days)); 
             ?>
-            <?php?>
             <input type="text"
                    id="date_slot_selection"
                    name="date_slot_selection"
