@@ -28,15 +28,12 @@
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
-
-/* Shipping details in cart totals */
 .timeflow-shipping-details {
     margin-top: 5px;
     color: #666;
     font-style: italic;
 }
 
-/* Time slot selection styles */
 .timeflow_date_slot,
 .timeflow_time_slot {
     margin-bottom: 15px;
@@ -53,22 +50,50 @@
 .timeflow_date_slot input,
 .timeflow_time_slot select {
     width: 100%;
+    height: 44px; 
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
     background-color: white;
     font-size: 14px;
+    line-height: 1.5; 
+    box-sizing: border-box; 
 }
 
 .timeflow_date_slot input:focus,
 .timeflow_time_slot select:focus {
     border-color: #9A5294;
     outline: none;
-    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+    box-shadow: 0 0 0 2px rgba(154, 82, 148, 0.2);
 }
 
-/* Ensure time slot container is visible when needed */
 .timeflow_time_slot {
     display: block;
     transition: all 0.3s ease;
+}
+
+.timeflow_time_slot select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px 12px;
+}
+
+.timeflow_time_slot select:disabled {
+    background-color: #f2f2f2;
+    opacity: 0.7;
+}
+
+#date_slot_selection{
+    padding-left: 10px;
+}
+
+.required{
+    color: red;
+    font-size: 0.6em;
+    margin-left: 3px;
+    font-weight: bold;
 }

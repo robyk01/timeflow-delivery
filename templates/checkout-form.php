@@ -12,7 +12,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <div id="timeflow-delivery-form" class="timeflow-delivery-form">
     <div class="delivery-selection">
-        <h3 class="delivery-section-title"><?php esc_html_e('Select Delivery Method', 'woocommerce-timeflow-delivery'); ?></h3>
+        <h3 class="delivery-section-title">
+            <?php esc_html_e('Select Delivery Method', 'woocommerce-timeflow-delivery'); ?>
+            <span class="required">*</span>
+        </h3>
         <div class="delivery-buttons-container">
             <button type="button" id="shipping" data-delivery-type="shipping" class="delivery-buttons">
                 <i class="fas fa-truck"></i>
