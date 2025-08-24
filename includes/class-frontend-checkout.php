@@ -30,6 +30,8 @@ class Frontend_Checkout {
         
         // Reset TimeFlow session variables on checkout page load (not during AJAX)
         add_action('woocommerce_checkout_init', array($this, 'reset_timeflow_session_on_load'), 5); // Run early
+
+        add_action('woocommerce_checkout_process', array($this, 'validate_timeflow_fields'));
     }
 
     /**
@@ -465,6 +467,28 @@ class Frontend_Checkout {
              echo $details_html;
         } else {
              // error_log('[TimeFlow Debug][Display Details] No details HTML to echo.');
+        }
+    }
+
+    /**
+     * Validate required TimeFlow fields before order is processed
+     */
+    public function validate_timeflow_fields() {
+        if (!function_exists('is_checkout') || !is_checkout()) {
+            return;
+        }
+        $delivery_type = isset($_POST['delivery-type']) ? sanitize_text_field($_POST['delivery-type']) : '';
+        $delivery_date = isset($_POST['date_slot_selection']) ? sanitize_text_field($_POST['date_slot_selection']) : '';
+        $time_slot = isset($_POST['time_slot_selection']) ? sanitize_text_field($_POST['time_slot_selection']) : '';
+
+        if (empty($delivery_type)) {
+            wc_add_notice(__('Please select a delivery method.', 'woocommerce-timeflow-delivery'), 'error');
+        }
+        if (empty($delivery_date)) {
+            wc_add_notice(__('Please select a delivery date.', 'woocommerce-timeflow-delivery'), 'error');
+        }
+        if (empty($time_slot)) {
+            wc_add_notice(__('Please select a delivery time slot.', 'woocommerce-timeflow-delivery'), 'error');
         }
     }
 }
