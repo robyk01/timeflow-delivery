@@ -68,4 +68,21 @@ function check_woocommerce_dependency() {
 }
 add_action('admin_init', 'check_woocommerce_dependency');
 
+function timeflow_register_order_meta_fields() {
+    $fields = array(
+        '_delivery_type',
+        '_delivery_date_slot',
+        '_delivery_time_slot_id',
+    );
+    foreach ($fields as $field) {
+        register_post_meta('shop_order', $field, array(
+            'type'         => 'string',
+            'single'       => true,
+            'show_in_rest' => true, // Expose in REST API
+            'auth_callback'=> '__return_true', // Allow REST access
+        ));
+    }
+}
+add_action('init', 'timeflow_register_order_meta_fields');
+
 

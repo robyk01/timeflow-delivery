@@ -29,7 +29,7 @@ class Frontend_Checkout {
         add_action('woocommerce_cart_calculate_fees', array($this, 'add_delivery_fee_to_cart'), 20, 1);
         
         // Reset TimeFlow session variables on checkout page load (not during AJAX)
-        add_action('woocommerce_checkout_init', array($this, 'reset_timeflow_session_on_load'), 5); // Run early
+        add_action('woocommerce_checkout_init', array($this, 'reset_timeflow_session_on_load'), 5);
 
         add_action('woocommerce_checkout_process', array($this, 'validate_timeflow_fields'));
     }
@@ -224,39 +224,32 @@ class Frontend_Checkout {
      * Save the selected details to the order
      */
     public function save_time_slot_checkout($order_id) {
-        // Save Delivery Type
-         $delivery_type = isset($_POST['delivery-type']) && !empty($_POST['delivery-type'])
-            ? sanitize_text_field($_POST['delivery-type'])
-            : (function_exists('WC') && WC()->session ? WC()->session->get('timeflow_delivery_type') : '');
+        if ( ! isset( $_POST ) ) {
+            return;
+        }
 
-        if (!empty($delivery_type)) {
-            update_post_meta($order_id, '_delivery_type', $delivery_type);
+        $order = wc_get_order( $order_id );
+
+        // Save Delivery Method
+        if ( isset($_POST['delivery-type']) && !empty($_POST['delivery-type']) ) {
+            $order->update_meta_data( '_delivery_type', sanitize_text_field($_POST['delivery-type']) );
         }
 
         // Save Delivery Date
-        $delivery_date = isset($_POST['date_slot_selection']) && !empty($_POST['date_slot_selection'])
-            ? sanitize_text_field($_POST['date_slot_selection'])
-            : (function_exists('WC') && WC()->session ? WC()->session->get('timeflow_date_slot') : '');
- 
-        if (!empty($delivery_date)) {
-            update_post_meta($order_id, '_delivery_date_slot', $delivery_date);
+        if ( isset($_POST['date_slot_selection']) && !empty($_POST['date_slot_selection']) ) {
+            $date_string = date('Y-m-d', strtotime(sanitize_text_field( $_POST['date_slot_selection'] ) ) );
+            $order->update_meta_data( '_delivery_date_slot', $date_string );
         }
 
         // Save Time Slot ID
-        $time_slot_id = isset($_POST['time_slot_selection']) && !empty($_POST['time_slot_selection']) && $_POST['time_slot_selection'] !== '-'
-            ? sanitize_text_field($_POST['time_slot_selection'])
-            : (function_exists('WC') && WC()->session ? WC()->session->get('timeflow_time_slot_id') : '');
-
-        if (!empty($time_slot_id)) {
-            update_post_meta($order_id, '_delivery_time_slot_id', $time_slot_id);
-            // Deprecated - keep for potential backward compatibility or remove later
-            update_post_meta($order_id, '_time_slot_id', $time_slot_id); 
+        if ( isset($_POST['time_slot_selection']) && !empty($_POST['time_slot_selection']) && $_POST['time_slot_selection'] !== '-' ) {
+            $order->update_meta_data( '_delivery_time_slot_id', sanitize_text_field($_POST['time_slot_selection']) );
         } else {
-            // Ensure old meta is cleared if no slot is selected
-            delete_post_meta($order_id, '_delivery_time_slot_id');
-            delete_post_meta($order_id, '_time_slot_id');
+            $order->delete_meta_data( '_delivery_time_slot_id' );
         }
-    }
+
+        $order->save();
+    }  
 
     function display_time_slot_in_order_details($order) {
         if (is_numeric($order)) {
@@ -428,28 +421,20 @@ class Frontend_Checkout {
         }
 
         $delivery_type = WC()->session->get('timeflow_delivery_type');
-        // We no longer need date_slot or time_slot_id for this specific display function
-        // $date_slot = WC()->session->get('timeflow_date_slot');
-        // $time_slot_id = WC()->session->get('timeflow_time_slot_id');
+ 
 
-        // error_log('[TimeFlow Debug][Display Details] Session Data - Type: ' . print_r($delivery_type, true) ); 
+
         
         $details_html = '';
         $text_domain = 'woocommerce-timeflow-delivery'; // Define text domain
         $label = ''; // Initialize label variable
 
         if ($delivery_type === 'shipping') {
-            // error_log('[TimeFlow Debug][Display Details] Delivery type is shipping.');
-            $label = __('Transport', $text_domain); // Simple label for shipping
+            $label = __('Transport', $text_domain); 
             
         } elseif ($delivery_type === 'pickup') {
-             // error_log('[TimeFlow Debug][Display Details] Delivery type is pickup.');
              $label = __('Ridicare personală', $text_domain); // Changed text
             
-        } else { 
-            // error_log('[TimeFlow Debug][Display Details] Delivery type is neither shipping nor pickup, or empty: ' . print_r($delivery_type, true));
-            // Don't output anything if no valid type is selected
-            return; 
         }
         
         // Construct the HTML row if a label was set
@@ -463,10 +448,7 @@ class Frontend_Checkout {
         
         // Only echo if we have generated HTML
         if (!empty($details_html)) {
-             // error_log('[TimeFlow Debug][Display Details] Echoing details HTML.');
              echo $details_html;
-        } else {
-             // error_log('[TimeFlow Debug][Display Details] No details HTML to echo.');
         }
     }
 

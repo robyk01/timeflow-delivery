@@ -25,12 +25,31 @@ class WooCommerce_TimeFlow_Delivery_Admin_UI {
         add_action('woocommerce_admin_order_data_after_billing_address', array($this, 'display_admin_order_delivery_details'), 20, 1);
         add_action('woocommerce_email_customer_details', array($this, 'display_admin_order_delivery_details'), 20, 4);
         add_action('woocommerce_view_order_details_after_customer_details', array($this, 'display_admin_order_delivery_details'), 10, 1);
+
+        // New column: delivery date
+        add_filter( 'woocommerce_shop_order_list_table_columns', array( $this, 'add_order_list_column' ) );
+        
+        // Populate the column with content
+        add_action( 'woocommerce_shop_order_list_table_custom_column', array( $this, 'add_delivery_date_content' ), 10, 2 );
+
+        // Make the column sortable
+        add_filter( 'woocommerce_shop_order_list_table_sortable_columns', array( $this, 'make_delivery_date_column_sortable' ) );
+        
+        // Handle the sorting logic
+        add_filter( 'woocommerce_shop_order_list_table_prepare_items_query_args', array($this, 'handle_sorting_logic') );
+
+        // Custom Fields metabox
+        add_action( 'add_meta_boxes_shop_order', array($this, 'add_custom_field_meta_box') );
+
+        // Save meta when order is saved
+         add_action( 'save_post_shop_order', array($this, 'save_meta_order') );
     }
 
     /**
      * Add admin menu
      */
     public function add_admin_menu() {
+        error_log('Adding delivery info meta box');
         add_submenu_page(
             'woocommerce',
             __('TimeFlow Delivery', 'woocommerce-timeflow-delivery'),
@@ -170,5 +189,107 @@ class WooCommerce_TimeFlow_Delivery_Admin_UI {
 
         echo '</table>';
         echo '</div>';
+    }
+
+    /**
+     * New column: delivery date
+     */
+    public function add_order_list_column( $columns ) {
+        $new_columns = array();
+        foreach ( $columns as $column_name => $column_info ) {
+            $new_columns[ $column_name ] = $column_info;
+            if ( 'order_number' === $column_name ) {
+                $new_columns['timeflow_delivery_date'] = __( 'Delivery Date', 'woocommerce-timeflow-delivery' );
+            }
+        }
+        return $new_columns;
+    }
+
+    /**
+     * Populate columb with data
+     */
+    public function add_delivery_date_content( $column, $order) {
+        if ( 'timeflow_delivery_date' === $column ) {
+            $selected_date = $order->get_meta('_delivery_date_slot');
+    
+            if  ( $selected_date ) {
+                echo esc_html( date_i18n( get_option('date_format'), strtotime( $selected_date ) ) );
+            } else {
+                echo '-';
+            }
+            error_log($selected_date);
+        }
+    }
+
+    /**
+     * Make column sortable
+     */
+     public function make_delivery_date_column_sortable($columns){
+        $columns['timeflow_delivery_date'] = 'timeflow_delivery_date';
+        return $columns;
+     }
+
+
+     /**
+      * Handle sorting logic
+      */
+    public function handle_sorting_logic($query_args){
+        if ( isset( $_GET['orderby'] ) && 'timeflow_delivery_date' === $_GET['orderby'] ) {
+            $query_args['meta_key'] = '_delivery_date_slot';   
+            $query_args['orderby']  = 'meta_value';            // sorting by meta value
+            $query_args['order']    = $_GET['order'] ?? 'ASC';
+        }
+        return $query_args;
+    }
+    
+    
+    /**
+     * Adds custom field meta boxes
+     */
+    public function add_custom_field_meta_box(){
+        add_meta_box(
+            'timeflow_delivery_meta',       
+            'Delivery Info',                
+            array($this, 'render_timeflow_delivery_meta'),
+            'shop_order',                   
+            'normal',                         
+            'default'                       
+        );
+    }
+
+    public function render_timeflow_delivery_meta( $post ){
+        $order = wc_get_order( $post->ID );
+
+        // Get current values
+        $delivery_type   = $order->get_meta('_delivery_type');
+        $delivery_date   = $order->get_meta('_delivery_date_slot');
+        $time_slot_id    = $order->get_meta('_delivery_time_slot_id');
+
+        // Delivery Type
+        echo '<p><strong>Delivery Type:</strong><br>';
+        echo '<input type="text" name="_delivery_type" value="'.esc_attr($delivery_type).'" /></p>';
+
+        // Delivery Date
+        echo '<p><strong>Delivery Date:</strong><br>';
+        echo '<input type="text" name="_delivery_date_slot" value="'.esc_attr($delivery_date).'" /></p>';
+
+        // Time Slot ID
+        echo '<p><strong>Time Slot:</strong><br>';
+        echo '<input type="text" name="_delivery_time_slot_id" value="'.esc_attr($time_slot_id).'" /></p>';
+
+    }
+
+   public function save_meta_order( $post_id ){
+        if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) return;
+
+        if (isset($_POST['_delivery_type'])) {
+            update_post_meta($post_id, '_delivery_type', sanitize_text_field($_POST['_delivery_type']));
+        }
+        if (isset($_POST['_delivery_date_slot'])) {
+            update_post_meta($post_id, '_delivery_date_slot', sanitize_text_field($_POST['_delivery_date_slot']));
+        }
+        if (isset($_POST['_delivery_time_slot_id'])) {
+            update_post_meta($post_id, '_delivery_time_slot_id', sanitize_text_field($_POST['_delivery_time_slot_id']));
+        }
     }
 }

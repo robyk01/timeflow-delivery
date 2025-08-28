@@ -205,12 +205,40 @@
         $('.delivery-buttons').on('click', function() {
             var deliveryType = $(this).data('delivery-type');
             var $clickedButton = $(this);
-            
+        
+            // Update button UI
             $('.delivery-buttons').removeClass('selected');
             $clickedButton.addClass('selected');
-            
+        
+            // Set visible delivery type
             $('#delivery-type').val(deliveryType);
-            
+        
+            // Clear date field
+            var $dateInput = $('#date_slot_selection');
+            $dateInput.val('');
+            $('#date-slot-selection-hidden').val(''); 
+        
+            // Clear time slot
+            $('#time_slot_selection').val('').prop('disabled', true);
+            $('#time-slot-selection-hidden').val(''); 
+        
+            // Reset Flatpickr if present
+            if ($dateInput.hasClass('timeflow-date-picker')) {
+                var fp = $dateInput[0]._flatpickr;
+                if (fp) {
+                    fp.clear();
+                }
+            }
+        
+            // Sync hidden fields
+            function syncTimeflowFields() {
+                $('#delivery-type-hidden').val($('#delivery-type').val());
+                $('#date-slot-selection-hidden').val($('#date_slot_selection').val());
+                $('#time-slot-selection-hidden').val($('#time_slot_selection').val());
+            }
+            syncTimeflowFields();
+        
+            // Save delivery type to session
             $.ajax({
                 url: timeflowCheckoutParams.ajaxUrl,
                 type: 'POST',
@@ -222,16 +250,6 @@
                 success: function(response) {
                     if (response.success) {
                         console.log('Delivery type session set:', deliveryType);
-                        
-                        clearTimeSlotSelection(function() {
-                            
-                            var selectedDate = $('#date_slot_selection').val();
-                            if (selectedDate) {
-                                
-                                console.log('Date was selected, time slots cleared.')
-                            }
-                        });
-
                     } else {
                         console.error('Failed to set delivery type:', response.data);
                     }
@@ -240,7 +258,7 @@
                     console.error('Error setting delivery type session:', textStatus, errorThrown);
                 }
             });
-            
+        
         });
 
         // Handle time slot selection
@@ -257,19 +275,19 @@
             var timeSlotSelected = $('#time_slot_selection').val();
     
             if (!deliveryType) {
-                alert('Please select a delivery method.');
+                alert('Vă rugăm selectați o metodă de livrare.');
                 $('#timeflow-delivery-selection').get(0).scrollIntoView();
                 return false;
             }
     
             if (!dateSelected) {
-                alert('Please select a delivery date.');
+                alert('Vă rugăm selectați o dată de livrare.');
                 $('#date_slot_selection').focus();
                 return false;
             }
     
             if (!timeSlotSelected) {
-                alert('Please select a delivery time slot.');
+                alert('Vă rugăm selectați un interval orar.');
                 $('#time_slot_selection').focus();
                 return false;
             }

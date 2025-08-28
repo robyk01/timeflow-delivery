@@ -67,7 +67,6 @@ if ( ! defined( 'ABSPATH' ) ) {
         $('.delivery-buttons').on('click', function() {
             var type = $(this).data('delivery-type');
             $('#delivery-type').val(type).trigger('change');
-            // Optionally, visually highlight the selected button
             $('.delivery-buttons').removeClass('selected');
             $(this).addClass('selected');
         });
