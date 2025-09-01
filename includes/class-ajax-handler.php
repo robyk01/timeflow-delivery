@@ -66,7 +66,7 @@ class WooCommerce_TimeFlow_Delivery_Ajax_Handler {
              wp_send_json_success(array());
              return;
         }
-        // --- End Check --- 
+
         
         // Get day of week (lowercase)
         $day_of_week = strtolower(date('l', strtotime($date)));
@@ -441,6 +441,7 @@ class WooCommerce_TimeFlow_Delivery_Ajax_Handler {
             error_log('[TimeFlow Debug][AJAX Save Slot] Cleared session variables.');
         } else {
             WC()->session->set('timeflow_time_slot_id', $time_slot_id);
+            WC()->session->set('time_slot_selection_id', $time_slot_id);
             $fee = get_post_meta($time_slot_id, '_time_slot_fee', true);
             $fee = is_numeric($fee) ? $fee : ''; 
             WC()->session->set('timeflow_time_slot_fee', $fee);
