@@ -37,12 +37,6 @@ class WooCommerce_TimeFlow_Delivery_Admin_UI {
         
         // Handle the sorting logic
         add_filter( 'woocommerce_shop_order_list_table_prepare_items_query_args', array($this, 'handle_sorting_logic') );
-
-        // Custom Fields metabox
-        add_action( 'add_meta_boxes_shop_order', array($this, 'add_custom_field_meta_box') );
-
-        // Save meta when order is saved
-         add_action( 'save_post_shop_order', array($this, 'save_meta_order') );
     }
 
     /**
@@ -240,56 +234,5 @@ class WooCommerce_TimeFlow_Delivery_Admin_UI {
             $query_args['order']    = $_GET['order'] ?? 'ASC';
         }
         return $query_args;
-    }
-    
-    
-    /**
-     * Adds custom field meta boxes
-     */
-    public function add_custom_field_meta_box(){
-        add_meta_box(
-            'timeflow_delivery_meta',       
-            'Delivery Info',                
-            array($this, 'render_timeflow_delivery_meta'),
-            'shop_order',                   
-            'normal',                         
-            'default'                       
-        );
-    }
-
-    public function render_timeflow_delivery_meta( $post ){
-        $order = wc_get_order( $post->ID );
-
-        // Get current values
-        $delivery_type   = $order->get_meta('_delivery_type');
-        $delivery_date   = $order->get_meta('_delivery_date_slot');
-        $time_slot_id    = $order->get_meta('_delivery_time_slot_id');
-
-        // Delivery Type
-        echo '<p><strong>Delivery Type:</strong><br>';
-        echo '<input type="text" name="_delivery_type" value="'.esc_attr($delivery_type).'" /></p>';
-
-        // Delivery Date
-        echo '<p><strong>Delivery Date:</strong><br>';
-        echo '<input type="text" name="_delivery_date_slot" value="'.esc_attr($delivery_date).'" /></p>';
-
-        // Time Slot ID
-        echo '<p><strong>Time Slot:</strong><br>';
-        echo '<input type="text" name="_delivery_time_slot_id" value="'.esc_attr($time_slot_id).'" /></p>';
-
-    }
-
-   public function save_meta_order( $post_id ){
-        if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) return;
-
-        if (isset($_POST['_delivery_type'])) {
-            update_post_meta($post_id, '_delivery_type', sanitize_text_field($_POST['_delivery_type']));
-        }
-        if (isset($_POST['_delivery_date_slot'])) {
-            update_post_meta($post_id, '_delivery_date_slot', sanitize_text_field($_POST['_delivery_date_slot']));
-        }
-        if (isset($_POST['_delivery_time_slot_id'])) {
-            update_post_meta($post_id, '_delivery_time_slot_id', sanitize_text_field($_POST['_delivery_time_slot_id']));
-        }
     }
 }
