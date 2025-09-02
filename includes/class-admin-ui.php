@@ -131,9 +131,21 @@ class WooCommerce_TimeFlow_Delivery_Admin_UI {
         }
 
         $order_id = $order->get_id();
-        $delivery_type = get_post_meta($order_id, '_delivery_type', true);
-        $selected_date = get_post_meta($order_id, '_delivery_date_slot', true);
-        $time_slot_id = get_post_meta($order_id, '_delivery_time_slot_id', true);
+        $delivery_type = $order->get_meta('_delivery_type');
+        if (!$delivery_type) {
+            $delivery_type = get_post_meta($order_id, '_delivery_type', true); // fallback for old orders
+        }
+
+        $selected_date = $order->get_meta('_delivery_date_slot');
+        if (!$selected_date) {
+            $selected_date = get_post_meta($order_id, '_delivery_date_slot', true); // fallback
+        }
+
+        $time_slot_id = $order->get_meta('_delivery_time_slot_id');
+        if (!$time_slot_id) {
+            $time_slot_id = get_post_meta($order_id, '_delivery_time_slot_id', true); // fallback
+        }
+
 
         echo '<div class="order_data_column" style="width: 100%; clear: both; margin-top: 15px;">';
         echo '<h4>' . __('Delivery Information', 'woocommerce-timeflow-delivery') . '</h4>';
@@ -205,6 +217,10 @@ class WooCommerce_TimeFlow_Delivery_Admin_UI {
     public function add_delivery_date_content( $column, $order) {
         if ( 'timeflow_delivery_date' === $column ) {
             $selected_date = $order->get_meta('_delivery_date_slot');
+            if (!$selected_date) {
+                $selected_date = get_post_meta($order->get_id(), '_delivery_date_slot', true); // fallback
+            }
+
     
             if  ( $selected_date ) {
                 echo esc_html( date_i18n( get_option('date_format'), strtotime( $selected_date ) ) );

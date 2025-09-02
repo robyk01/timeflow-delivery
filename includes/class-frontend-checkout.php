@@ -261,9 +261,21 @@ class Frontend_Checkout {
         }
 
         $order_id = $order->get_id();
-        $delivery_type = get_post_meta($order_id, '_delivery_type', true);
-        $selected_date = get_post_meta($order_id, '_delivery_date_slot', true);
-        $time_slot_id = get_post_meta($order_id, '_delivery_time_slot_id', true);
+        $delivery_type = $order->get_meta('_delivery_type');
+        if (!$delivery_type) {
+            $delivery_type = get_post_meta($order_id, '_delivery_type', true); // fallback for old orders
+        }
+
+        $selected_date = $order->get_meta('_delivery_date_slot');
+        if (!$selected_date) {
+            $selected_date = get_post_meta($order_id, '_delivery_date_slot', true); // fallback
+        }
+
+        $time_slot_id = $order->get_meta('_delivery_time_slot_id');
+        if (!$time_slot_id) {
+            $time_slot_id = get_post_meta($order_id, '_delivery_time_slot_id', true); // fallback
+        }
+
 
         $text_domain = 'woocommerce-timeflow-delivery'; 
 
@@ -412,11 +424,10 @@ class Frontend_Checkout {
      * Display shipping details on the order review section after shipping options
      */
     public function display_shipping_details_on_review() {
-        // error_log('[TimeFlow Debug][Display Details] Running display_shipping_details_on_review.'); 
 
         // Check if WC() and session are available
         if (!function_exists('WC') || !WC()->session) {
-            // error_log('[TimeFlow Debug][Display Details] Exiting: WC or session not available.');
+
             return;
         }
 
