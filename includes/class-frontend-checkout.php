@@ -243,7 +243,15 @@ class Frontend_Checkout {
 
         // Save Time Slot ID
         if ( isset($_POST['time_slot_selection']) && !empty($_POST['time_slot_selection']) && $_POST['time_slot_selection'] !== '-' ) {
-            $order->update_meta_data( '_delivery_time_slot_id', sanitize_text_field($_POST['time_slot_selection']) );
+            $slot_id    = sanitize_text_field($_POST['time_slot_selection']);
+            $start_time = get_post_meta($slot_id, '_time_slot_start_time', true);
+            $end_time   = get_post_meta($slot_id, '_time_slot_end_time', true);
+            $fee        = get_post_meta($slot_id, '_time_slot_fee', true);
+        
+            $order->update_meta_data('_delivery_time_slot_id', $slot_id);
+            $order->update_meta_data('_delivery_time_start', $start_time);
+            $order->update_meta_data('_delivery_time_end', $end_time);
+            $order->update_meta_data('_delivery_time_fee', $fee);
         } else {
             $order->delete_meta_data( '_delivery_time_slot_id' );
         }
@@ -374,10 +382,10 @@ class Frontend_Checkout {
         $fees_api = $cart->fees_api();
         $existing_fees = $fees_api->get_fees();
 
-        // --- Logica pentru REDUCEREA de Ridicare Personala (Pickup) ---
-        $pickup_discount_id = 'timeflow_pickup_discount'; // AM SCHIMBAT ID-ul
-        $nume_reducere_pickup = __('Reducere pentru ridicare personală', 'woocommerce-timeflow-delivery'); // AM SCHIMBAT NUMELE
-        $valoare_reducere_pickup = -20; // AM PUS VALOAREA NEGATIVĂ
+
+        $pickup_discount_id = 'timeflow_pickup_discount'; 
+        $nume_reducere_pickup = __('Reducere pentru ridicare personală', 'woocommerce-timeflow-delivery'); 
+        $valoare_reducere_pickup = -20; 
 
         if ('pickup' === $delivery_type) {
             $fees_api->add_fee(array(
@@ -393,8 +401,7 @@ class Frontend_Checkout {
             }
         }
 
-        // --- Logica originală pentru Taxa de Interval Orar (Time Slot) ---
-        // Această parte rămâne neschimbată
+
         $timeslot_fee_id = 'timeflow_delivery_fee';
         $fee_name = __('Taxă de livrare', 'woocommerce-timeflow-delivery');
         $should_add_timeslot_fee = false;
@@ -437,23 +444,22 @@ class Frontend_Checkout {
 
         
         $details_html = '';
-        $text_domain = 'woocommerce-timeflow-delivery'; // Define text domain
-        $label = ''; // Initialize label variable
+        $text_domain = 'woocommerce-timeflow-delivery'; 
+        $label = ''; 
 
         if ($delivery_type === 'shipping') {
             $label = __('Transport', $text_domain); 
             
         } elseif ($delivery_type === 'pickup') {
-             $label = __('Ridicare personală', $text_domain); // Changed text
-            
+             $label = __('Ridicare personală', $text_domain);            
         }
         
         // Construct the HTML row if a label was set
         if (!empty($label)) {
              // error_log('[TimeFlow Debug][Display Details] Preparing HTML for label: ' . $label);
-             $details_html .= '<tr class="timeflow-shipping-method-row">'; // Changed class name for clarity
+             $details_html .= '<tr class="timeflow-shipping-method-row">'; 
              $details_html .= '<th scope="row">' . __('Livrare:', $text_domain) . '</th>'; 
-             $details_html .= '<td><small>' . esc_html($label) . '</small></td>'; // Display the simple label
+             $details_html .= '<td><small>' . esc_html($label) . '</small></td>'; 
              $details_html .= '</tr>';
         }
         

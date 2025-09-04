@@ -15,19 +15,16 @@ class WooCommerce_TimeFlow_Delivery_Settings {
      * Constructor
      */
     public function __construct() {
-        // Remove admin_init hook for settings registration
-        // add_action('admin_init', array($this, 'register_settings')); 
         
         // Add hook for our manual save handler
         add_action('admin_post_timeflow_save_settings', array($this, 'handle_save_settings'));
     }
 
     /**
-     * Register plugin settings - NO LONGER USED FOR SAVING
-     * Keep for potential future use or reference, but comment out registration.
+     * Register plugin settings 
      */
     public function register_settings() {
-        /* // --- Commented out --- 
+        /*
         register_setting(
             'timeflow_delivery_options',
             'timeflow_delivery_settings',
@@ -92,7 +89,7 @@ class WooCommerce_TimeFlow_Delivery_Settings {
                 'description' => __('Select dates when delivery is unavailable.', 'woocommerce-timeflow-delivery')
             )
         );
-        */ // --- End Commented Out --- 
+        */ 
     }
 
     /**

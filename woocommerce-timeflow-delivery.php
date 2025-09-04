@@ -73,6 +73,9 @@ function timeflow_register_order_meta_fields() {
         '_delivery_type',
         '_delivery_date_slot',
         '_delivery_time_slot_id',
+        '_delivery_time_start',
+        '_delivery_time_end',
+        '_delivery_time_fee',
     );
     foreach ($fields as $field) {
         register_post_meta('shop_order', $field, array(
