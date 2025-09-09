@@ -9,7 +9,7 @@ function timeflow_add_delivery_fee($cart){
 
     
     if ($time_slot_fee > 0){
-        $cart->add_fee('Taxă', $time_slot_fee);
+        $cart->add_fee('Taxă program special', $time_slot_fee);
     }
 }
 add_action('woocommerce_cart_calculate_fees', 'timeflow_add_delivery_fee');
