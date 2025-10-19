@@ -28,7 +28,6 @@ Enhance your WooCommerce checkout process by allowing customers to choose a spec
 *   Supports both Shipping and Local Pickup methods (time slots can be specific to a method).
 *   Displays selected delivery details on the order confirmation page and in admin order details.
 
-[Provide more details about the plugin's benefits and how it works here. Add links to your website or documentation if available.]
 
 == Installation ==
 
@@ -52,13 +51,6 @@ Yes, when creating or editing a time slot, you can enter an optional delivery fe
 Go to WooCommerce > TimeFlow Delivery > Settings tab. Use the 'Unavailable Dates' option to add specific dates when delivery should not be offered. These dates will be greyed out and unselectable on the checkout page calendar.
 
 
-== Screenshots ==
-
-1.  Checkout page date and time selection.
-2.  Admin interface for managing time slots.
-3.  Plugin settings page.
-
-
 == Changelog ==
 
 = 2.5.0 =
@@ -77,8 +69,6 @@ Go to WooCommerce > TimeFlow Delivery > Settings tab. Use the 'Unavailable Dates
 *   Fix: Corrected placeholder format for Default Delivery Fee.
 *   Refactor: Rebuilt settings save mechanism to use manual admin-post handler instead of Settings API for increased reliability.
 
-
-== Upgrade Notice ==
 
 
  
